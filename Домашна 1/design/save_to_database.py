@@ -55,6 +55,16 @@ def insert_company_name(names):  #12 secs exe time
     conn.close()
 
 
+def insert_one_company_name(name):
+    conn = connect_mysql()
+    cursor = conn.cursor()
+    sql = "INSERT IGNORE INTO company (name) VALUES (%s)"
+    cursor.execute(sql, (name,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
 def get_company_id(company_name: str):
     conn = connect_mysql()
     cursor = conn.cursor()
@@ -173,11 +183,17 @@ def save_to_MYSQL_data_threads(names):  #Za povekje kompanii
     Parallel(n_jobs=10)(delayed(scrape_and_insert)(name) for name in names)
 
 
+def save_to_MYSQL_data_tester(name):
+    scrape_and_insert(name)
+
+
 def main():
     start_time = time.time()
     names = company_names()
-    insert_company_name(names)
-    save_to_MYSQL_data_threads(names)
+    # insert_company_name(names)
+    # save_to_MYSQL_data_threads(names)
+    insert_one_company_name(names[2])
+    save_to_MYSQL_data_tester(names[2])
 
     end_time = time.time()
 
