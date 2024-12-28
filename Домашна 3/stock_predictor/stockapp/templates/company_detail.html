@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Company Details{% endblock %}
+
+{% block content %}
+    <div class="company-details-container">
+        <div class="company-header">
+            <strong>{{ company_name }}</strong> {{ company_code }}
+        </div>
+
+        {% if company_found %}
+            {% if records %}
+                <!-- Table for displaying company records -->
+                <div class="table-container">
+                    <table id="companyDetailsTable" class="display" style="display:none;">
+                        <thead>
+                            <tr>
+                                <th>Датум</th>
+                                <th>Последна трансакција</th>
+                                <th>Максимална цена</th>
+                                <th>Минимална цена</th>
+                                <th>Промет</th>
+                                <th>Количина</th>
+                                <th>Промет во БЕСТ</th>
+                                <th>Вкупен промет</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                                <tr>
+                                    <td>{{ record.date|date:"Y-m-d" }}</td> <!-- Use ISO format for sorting -->
+                                    <td>{{ record.last_transaction }}</td>
+                                    <td>{{ record.max_price }}</td>
+                                    <td>{{ record.min_price }}</td>
+                                    <td>{{ record.volume }}</td>
+                                    <td>{{ record.quantity }}</td>
+                                    <td>{{ record.BEST_profit }}</td>
+                                    <td>{{ record.total_profit }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No daily records found for this company.</p>
+            {% endif %}
+        {% else %}
+            <p>Company "{{ company_code }}" not found in the database.</p>
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Ensure the table is visible before applying DataTable features
+        $('#companyDetailsTable').fadeIn();  // Fade-in effect for smoother transition
+
+        // Initialize DataTable with sorting by date in descending order
+        $('#companyDetailsTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthChange": true,
+            "pageLength": 10,
+            "order": [[0, 'desc']],  // Sorting by the first column (date) in descending order
+            "columnDefs": [
+                {
+                    "targets": [0],  // Target the first column (index 0)
+                    "width": "110px",
+                    "type": "date",  // Treat the date column as a date type for sorting
+                }
+            ],
+            "scrollY": "400px",
+            "scrollCollapse": true,
+            "pagingType": "simple_numbers"
+        });
+    });
+</script>
+{% endblock %}
