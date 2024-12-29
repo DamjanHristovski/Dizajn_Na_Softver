@@ -8,18 +8,35 @@
             <strong>{{ company_name }}</strong> {{ company_code }}
         </div>
 
-        {% if company_found %}
+        <div id="damjan">
+            <p>Damjan del</p>
+        </div>
+
+        <div id="stefan">
+            <p>StefAN del</p>
+        </div>
+
+        {% if prediction_image %}
+        <div id="matej">
+            <!-- Prediction Image -->
+            <div id="predictionImageContainer" style="text-align: center; margin-top: 20px;">
+                <img id="predictionImage" src="{{ prediction_image }}" alt="Stock Price Prediction" style="display: none;">
+            </div>
+        </div>
+        {% endif %}
+
+ {% if company_found %}
             {% if records %}
                 <!-- Table for displaying company records -->
                 <div class="table-container">
-                    <table id="companyDetailsTable" class="display" style="display:none;">
+                    <table id="companyDetailsTable" class="display">
                         <thead>
                             <tr>
                                 <th>Датум</th>
                                 <th>Последна трансакција</th>
                                 <th>Максимална цена</th>
+                                <th>Просечна цена</th>
                                 <th>Минимална цена</th>
-                                <th>Промет</th>
                                 <th>Количина</th>
                                 <th>Промет во БЕСТ</th>
                                 <th>Вкупен промет</th>
@@ -31,9 +48,9 @@
                                     <td>{{ record.date|date:"Y-m-d" }}</td> <!-- Use ISO format for sorting -->
                                     <td>{{ record.last_transaction }}</td>
                                     <td>{{ record.max_price }}</td>
+                                    <td>{{ record.average_price }}</td>
                                     <td>{{ record.min_price }}</td>
                                     <td>{{ record.volume }}</td>
-                                    <td>{{ record.quantity }}</td>
                                     <td>{{ record.BEST_profit }}</td>
                                     <td>{{ record.total_profit }}</td>
                                 </tr>
@@ -52,9 +69,13 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- For Dates -->
 <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
 
 <script>
+    window.onload = function() {
+            document.getElementById('predictionImage').style.display = 'block';
+    };
     $(document).ready(function () {
         // Ensure the table is visible before applying DataTable features
         $('#companyDetailsTable').fadeIn();  // Fade-in effect for smoother transition
@@ -81,4 +102,5 @@
         });
     });
 </script>
+
 {% endblock %}

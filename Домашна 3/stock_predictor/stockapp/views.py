@@ -7,6 +7,8 @@ from datetime import datetime
 # Create your views here.
 from django.shortcuts import render
 import csv
+
+from .LSTM_3 import predict_stock_prices
 from .scraper import scrape_company_names
 from .utils import load_csv_data
 from django.http import HttpResponse
@@ -51,34 +53,59 @@ def companies(request):
 # Company details
 def company_details(request, company_code):
     # Paths to your CSV files
-    company_names_path = os.path.join(settings.BASE_DIR, 'stockapp', 'data', 'company_names.csv')
     company_codes_and_names_path = os.path.join(settings.BASE_DIR, 'stockapp', 'data', 'company_codes_and_names.csv')
-    daily_info_path = os.path.join(settings.BASE_DIR, 'stockapp', 'data', 'Daily_info_for_companies.csv')
+    daily_info_path = os.path.join(settings.BASE_DIR, 'stockapp', 'data', 'data_for_showcase.csv')
 
     # Load the data
-    company_names = pd.read_csv(company_names_path)
     company_codes_and_names = pd.read_csv(company_codes_and_names_path)
     daily_info = pd.read_csv(daily_info_path)
 
-    # Look up Company_ID in company_names.csv using the given Company_Code
-    company_row = company_names[company_names['name'] == company_code]  # 'name' in company_names corresponds to the code
-    company_id = company_row.iloc[0]['company_id'] if not company_row.empty else None
-
-    # Look up Company_Name in company_codes_and_names.csv using the given Company_Code
+    # Look up Company_Name and Company_ID in company_codes_and_names.csv using the given Company_Code
     company_info = company_codes_and_names[company_codes_and_names['Company_Code'] == company_code]
-    company_name = company_info.iloc[0]['Company_Name'] if not company_info.empty else company_code  # Default to the code if the name isn't found
+    if company_info.empty:
+        return render(
+            request,
+            'company_detail.html',
+            {
+                'company_code': company_code,
+                'company_name': None,
+                'records': [],
+                'company_found': False,
+                'prediction_image': None,
+            }
+        )
+
+    company_id = company_info.iloc[0]['Company_ID']
+    company_name = company_info.iloc[0]['Company_Name']
 
     # Filter daily_info for the found Company_ID
-    filtered_records = daily_info[daily_info['company_id'] == company_id] if company_id else pd.DataFrame()
+    filtered_records = daily_info[daily_info['company_id'] == company_id]
 
-    # Convert the 'date' column to datetime format (DD-MM-YY), ensuring no time component is added
-    filtered_records['date'] = pd.to_datetime(filtered_records['date'], format='%d-%m-%y', errors='coerce', dayfirst=True)
+    # Convert the 'date' column to datetime format (YYYY-MM-DD)
+    filtered_records.loc[:, 'date'] = pd.to_datetime(
+        filtered_records['date'], format='%Y-%m-%d', errors='coerce'
+    )
 
     # Handle missing values (if any) in other columns
-    filtered_records.fillna({ 'last_transaction':0.0,'max_price': 0.0, 'min_price': 0.0, 'average_price':0.0, 'volume': 0.0, 'quantity':0.0, 'BEST_profit':0.0, 'total_profit':0.0}, inplace=True)
+    filtered_records = filtered_records.fillna({
+        'last_transaction': 0.0,
+        'max_price': 0.0,
+        'min_price': 0.0,
+        'average_price': 0.0,
+        'volume': 0.0,
+        'BEST_profit': 0.0,
+        'total_profit': 0.0,
+    })
 
     # Convert the filtered records to a dictionary for rendering
     records = filtered_records.to_dict(orient='records')
+
+    # Generate stock price prediction plot
+    try:
+        prediction_image = predict_stock_prices(company_code)
+    except ValueError as e:
+        prediction_image = None  # Handle cases where prediction cannot be generated
+        print(f"Prediction error: {e}")
 
     # Render the template with the filtered data
     return render(
@@ -88,7 +115,8 @@ def company_details(request, company_code):
             'company_code': company_code,
             'company_name': company_name,
             'records': records,
-            'company_found': company_id is not None,
+            'company_found': True,
+            'prediction_image': prediction_image,
         }
     )
 

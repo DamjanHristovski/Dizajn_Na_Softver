@@ -316,26 +316,12 @@ main {
     border: 1px solid #ddd;
 }
 
-#companyDetailsTable th {
-    background-color: #f4f4f4;
-    color: #333;
+#companyDetailsTable thead th {
+    color: #333 !important; /* Force darker color */
+    background-color: #f4f4f4 !important; /* Ensure visible background */
+    font-weight: bold; /* Make text stand out */
 }
 
 #companyDetailsTable tr:nth-child(even) {
     background-color: #f9f9f9;
 }
-
-button {
-    padding: 10px 20px;
-    background-color: #4f81bd;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
-}
-
-button:hover {
-    background-color: #3a6e96;
-}
-
