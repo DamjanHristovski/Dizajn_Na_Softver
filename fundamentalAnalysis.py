@@ -190,7 +190,7 @@ def nlpPreProcessTheNews(news):
 
 
 if __name__ == '__main__':
-    links = scrapeFilteredLinksForCode("KMB")
+    links = scrapeFilteredLinksForCode("ALK")
     news = scrapeNewsText(links)
     html_output =   """<!DOCTYPE html> 
                     <html> 
