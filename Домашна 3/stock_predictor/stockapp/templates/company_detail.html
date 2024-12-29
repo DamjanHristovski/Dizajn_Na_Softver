@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Company Details{% endblock %}
+
+{% block content %}
+    <div class="company-details-container">
+        <div class="company-header">
+            <strong>{{ company_name }}</strong> {{ company_code }}
+        </div>
+
+        <!-- Render loading container by default -->
+        <div id="loadingContainer" style="text-align: center; margin-top: 20px;">
+            <!-- Spinner instead of gif -->
+            <div class="spinner"></div>
+            <p>Generating LSTM prediction...</p>
+        </div>
+
+        {% if prediction_image %}
+        <div id="matej">
+            <!-- Prediction Image -->
+            <div id="predictionImageContainer" style="text-align: center; margin-top: 20px;">
+                <img id="predictionImage" src="{{ prediction_image }}" alt="Stock Price Prediction" onload="checkLoad()">
+            </div>
+            <p>Во оваа анализа користиме на машинско учење за предвидување на идните цени на акциите со помош на <strong>LSTM</strong> мрежи.
+                Овоj метод е специфичен за анализа на временски серии, што го прави идеален за предвидување на трендовите на цените на акциите.</p>
+        </div>
+        {% endif %}
+
+    <div id="kopchinja">
+        <h3>Кликнете за останати типови на анализа:</h3>
+        <div class="button-container">
+            <div id="damjan">
+                <form method="GET" action="{% url 'run_streamlit' company_code=company_code %}" target="_blank">
+                    <button type="submit"><strong>Техничка анализа</strong></button>
+                </form>
+                <p><strong>Техничката анализа</strong> се фокусира на проучување на историските податоци за цените на акциите и обемот на тргување за да
+                    идентификувате трендови и модели, кои ќе ви помогнат да предвидите идни движења на цената.</p>
+            </div>
+            <div id="stefan">
+                <a href="{% url 'fundamental_analysis' company_code=company_code %}" target="_blank">
+                    <button>
+                        <strong>Фундаментална анализа</strong>
+                    </button>
+                </a>
+                <p><strong>Фундаменталната анализа</strong> се фокусира на процена на компаниите преку преглед на нивните финансиски податоци, како и на
+                    информациите што произлегуваат од jавните вести и извештаи.</p>
+            </div>
+        </div>
+    </div>
+
+
+    {% if company_found %}
+        {% if records %}
+            <h3 style="color:#8368E8">Дневни записи:</h3>
+            <!-- Table for displaying company records -->
+            <div class="table-container">
+                <table id="companyDetailsTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Датум</th>
+                            <th>Последна трансакција</th>
+                            <th>Максимална цена</th>
+                            <th>Просечна цена</th>
+                            <th>Минимална цена</th>
+                            <th>Количина</th>
+                            <th>Промет во БЕСТ</th>
+                            <th>Вкупен промет</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                            <tr>
+                                <td>{{ record.date|date:"Y-m-d" }}</td> <!-- Use ISO format for sorting -->
+                                <td>{{ record.last_transaction }}</td>
+                                <td>{{ record.max_price }}</td>
+                                <td>{{ record.average_price }}</td>
+                                <td>{{ record.min_price }}</td>
+                                <td>{{ record.volume }}</td>
+                                <td>{{ record.BEST_profit }}</td>
+                                <td>{{ record.total_profit }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No daily records found for this company.</p>
+        {% endif %}
+    {% else %}
+        <p>Company "{{ company_code }}" not found in the database.</p>
+    {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- For Dates -->
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+<script>
+// Ensure that the checkLoad function is defined at the top of the script.
+function checkLoad() {
+    console.log('Image loaded');
+    // Hide the loading container and show the prediction image once it's loaded
+    document.getElementById('loadingContainer').style.display = 'none';
+    document.getElementById('predictionImage').style.display = 'block';
+}
+
+// Make sure that the window onload event sets up the initial state
+window.onload = function() {
+    // Adding onload event for the image manually
+    document.getElementById('predictionImage').onload = checkLoad
+    document.getElementById('loadingContainer').style.display = 'none';
+   // document.getElementById('predictionImage').style.display = 'block';
+    console.log('Window loaded');
+
+    // Always show the loading container by default
+   // var loadingContainer = document.getElementById('loadingContainer');
+  //  if (loadingContainer) {
+  //      loadingContainer.style.display = 'block';
+  //      console.log('Loading container is visible');
+  //  } else {
+ //       console.log('Loading container not found');
+  //  }
+};
+
+$(document).ready(function () {
+    // Ensure the table is visible before applying DataTable features
+    $('#companyDetailsTable').fadeIn();  // Fade-in effect for smoother transition
+
+    // Initialize DataTable with sorting by date in descending order
+    $('#companyDetailsTable').DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "lengthChange": true,
+        "pageLength": 10,
+        "order": [[0, 'desc']],  // Sorting by the first column (date) in descending order
+        "columnDefs": [
+            {
+                "targets": [0],  // Target the first column (index 0)
+                "width": "110px",
+                "type": "date",  // Treat the date column as a date type for sorting
+            }
+        ],
+        "scrollY": "400px",
+        "scrollCollapse": true,
+        "pagingType": "simple_numbers"
+    });
+});
+</script>
+
+
+{% endblock %}
