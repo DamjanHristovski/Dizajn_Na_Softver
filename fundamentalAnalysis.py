@@ -67,12 +67,14 @@ def scrapeNewsText(links):
         time.sleep(5)
         soup = BeautifulSoup(webdriver.page_source,'html.parser')
         paragraphs = soup.select("#root > main > div > div:nth-child(4) > div > div > div > p")
+        tmp = ""
         for paragraph in paragraphs:
             if len(paragraph.text) > 10:
                 text = paragraph.text
                 # replace "\xa0" with " "
                 text = text.replace("\xa0", " ")
-                news.append(text)
+                tmp += text
+        news.append(tmp)
     return news
 
 def createModel():
@@ -188,7 +190,7 @@ def nlpPreProcessTheNews(news):
 
 
 if __name__ == '__main__':
-    links = scrapeFilteredLinksForCode("ALK")
+    links = scrapeFilteredLinksForCode("KMB")
     news = scrapeNewsText(links)
     html_output =   """<!DOCTYPE html> 
                     <html> 
@@ -233,6 +235,6 @@ if __name__ == '__main__':
             html_output += '<h4>Бројот на позитивни и негативни вести е ист. Во овој случај не треба да се купуваат или продаваат акции.</h4>'
     html_output += '</body></html>'
 
-    with open('fundamentalAnalysis.html', 'w', encoding="utf-8") as file:
+    with open('fundamentalAnalysisVisual.html', 'w', encoding="utf-8") as file:
         file.write(html_output)
 

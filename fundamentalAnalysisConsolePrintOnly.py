@@ -67,12 +67,14 @@ def scrapeNewsText(links):
         time.sleep(5)
         soup = BeautifulSoup(webdriver.page_source,'html.parser')
         paragraphs = soup.select("#root > main > div > div:nth-child(4) > div > div > div > p")
+        tmp = ""
         for paragraph in paragraphs:
             if len(paragraph.text) > 10:
                 text = paragraph.text
                 # replace "\xa0" with " "
                 text = text.replace("\xa0", " ")
-                news.append(text)
+                tmp += text
+        news.append(tmp)
     return news
 
 def createModel():
