@@ -22,7 +22,7 @@ start_year = 2014
 end_year = 2024
 
 
-def company_names():  #Filter 1
+def company_names():  # Filter 1
     url = "https://www.mse.mk/mk/stats/symbolhistory/kmb"
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -45,7 +45,7 @@ def connect_mysql():
     )
 
 
-def insert_company_name(names):  #12 secs exe time
+def insert_company_name(names):  # 12 secs exe time
     conn = connect_mysql()
     cursor = conn.cursor()
     sql = "INSERT IGNORE INTO company (name) VALUES (%s)"
@@ -76,7 +76,7 @@ def get_company_id(company_name: str):
     return result[0]
 
 
-def find_company_max_date(company_name: str):  #Filter 2
+def find_company_max_date(company_name: str):  # Filter 2
     conn = connect_mysql()
     cursor = conn.cursor()
     sql = "SELECT MAX(date) from daily_data WHERE company_id = (SELECT company_id FROM company WHERE name = %s LIMIT 1)"
@@ -87,8 +87,24 @@ def find_company_max_date(company_name: str):  #Filter 2
     return result[0] if result[0] else None
 
 
+def clean_numeric_column(df, column_name):
+    if column_name in df.columns:
+        df[column_name] = df[column_name].replace({',': ''}, regex=True)
+        df[column_name] = pd.to_numeric(df[column_name], errors='coerce')
+    return df
+
+
 def insert_daily_data(df, company_name):
+    numeric_columns = [
+        'last_transaction', 'max_price', 'min_price', 'average_price',
+        'volume', 'BEST_profit', 'total_profit'
+    ]
+
+    for col in numeric_columns:
+        df = clean_numeric_column(df, col)
+
     engine = create_engine('mysql+mysqldb://root:#Sedi_Madro_Da_Ne$BudeModro69@localhost/berza_data')
+
     df.to_sql(
         name='daily_data',
         con=engine,
@@ -100,8 +116,8 @@ def insert_daily_data(df, company_name):
             'min_price': DECIMAL(10, 2),
             'average_price': DECIMAL(10, 2),
             'volume': DECIMAL(10, 2),
-            'BEST_profit': DECIMAL(10, 2),
-            'total_profit': DECIMAL(10, 2)
+            'BEST_profit': DECIMAL(20, 2),
+            'total_profit': DECIMAL(20, 2)
         }
     )
     engine.dispose()
@@ -130,7 +146,7 @@ def scrape_data_for_company(company_code: str):
         button = driver.find_element(By.CLASS_NAME, "btn-primary-sm")
         driver.execute_script("arguments[0].scrollIntoView();", button)
         button.click()
-        time.sleep(0.5)
+        time.sleep(1)
         request = driver.page_source
         soup = BeautifulSoup(request, 'html.parser')
         body = soup.select('tbody tr')
@@ -147,21 +163,12 @@ def scrape_data_for_company(company_code: str):
                     "max_price": cols[2].text.strip().replace(".", "c").replace(",", ".").replace("c", ","),
                     "min_price": cols[3].text.strip().replace(".", "c").replace(",", ".").replace("c", ","),
                     "average_price": cols[4].text.strip().replace(".", "c").replace(",", ".").replace("c", ","),
-                    "volume": cols[5].text.strip().replace(".", "c").replace(",", ".").replace("c", ","),
-                    "quantity": cols[6].text.strip().replace(".", "c").replace(",", ".").replace("c", ","),
+                    "volume": cols[6].text.strip().replace(".", "c").replace(",", ".").replace("c", ","),
                     "BEST_profit": cols[7].text.strip().replace(".", "c").replace(",", ".").replace("c", ","),
                     "total_profit": cols[8].text.strip().replace(".", "c").replace(",", ".").replace("c", ",")
                 })
 
     df = pd.DataFrame(data)
-    df['last_transaction'] = pd.to_numeric(df['last_transaction'], errors='coerce')
-    df['max_price'] = pd.to_numeric(df['max_price'], errors='coerce')
-    df['min_price'] = pd.to_numeric(df['min_price'], errors='coerce')
-    df['average_price'] = pd.to_numeric(df['average_price'], errors='coerce')
-    df['volume'] = pd.to_numeric(df['volume'], errors='coerce')
-    df['quantity'] = pd.to_numeric(df['quantity'], errors='coerce')
-    df['BEST_profit'] = pd.to_numeric(df['BEST_profit'], errors='coerce')
-    df['total_profit'] = pd.to_numeric(df['total_profit'], errors='coerce')
     driver.quit()
     return df
 
@@ -179,7 +186,7 @@ def scrape_and_insert(company_name):
         insert_daily_data(df, get_company_id(company_name))
 
 
-def save_to_MYSQL_data_threads(names):  #Za povekje kompanii
+def save_to_MYSQL_data_threads(names):
     Parallel(n_jobs=10)(delayed(scrape_and_insert)(name) for name in names)
 
 
@@ -190,10 +197,8 @@ def save_to_MYSQL_data_tester(name):
 def main():
     start_time = time.time()
     names = company_names()
-    # insert_company_name(names)
-    # save_to_MYSQL_data_threads(names)
-    insert_one_company_name(names[2])
-    save_to_MYSQL_data_tester(names[2])
+    insert_company_name(names)
+    save_to_MYSQL_data_threads(names)
 
     end_time = time.time()
 
