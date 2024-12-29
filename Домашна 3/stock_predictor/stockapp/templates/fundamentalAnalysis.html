@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fundamental Analysis</title>
+</head>
+<body>
+    <h1>Fundamental Analysis</h1>
+
+    <!-- Display error message -->
+    {% if message %}
+    <p style="color: red;">{{ message }}</p>
+    {% endif %}
+
+    <!-- Display analysis results -->
+    {% if analysis %}
+    <h2>Analysis Results</h2>
+    <ul>
+        <li>Positive: {{ analysis.positive }}</li>
+        <li>Negative: {{ analysis.negative }}</li>
+        <li>Neutral: {{ analysis.neutral }}</li>
+    </ul>
+    {% endif %}
+
+    <!-- Form to submit company code -->
+    <form method="post" action="{% url 'fundamental_analysis_post' %}">
+        {% csrf_token %}
+        <label for="company_code">Company Code:</label>
+        <input type="text" id="company_code" name="company_code" required>
+        <button type="submit">Analyze</button>
+    </form>
+</body>
+</html>

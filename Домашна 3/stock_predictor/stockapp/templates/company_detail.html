@@ -30,11 +30,9 @@
         <h3>Кликнете за останати типови на анализа:</h3>
         <div class="button-container">
             <div id="damjan">
-                <a href="{% url 'technical_analysis' company_code=company_code %}" target="_blank">
-                    <button>
-                        <strong>Техничка анализа</strong>
-                    </button>
-                </a>
+                <form method="GET" action="{% url 'run_streamlit' company_code=company_code %}" target="_blank">
+                    <button type="submit"><strong>Техничка анализа</strong></button>
+                </form>
                 <p><strong>Техничката анализа</strong> се фокусира на проучување на историските податоци за цените на акциите и обемот на тргување за да
                     идентификувате трендови и модели, кои ќе ви помогнат да предвидите идни движења на цената.</p>
             </div>
