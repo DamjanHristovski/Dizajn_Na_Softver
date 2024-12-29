@@ -294,7 +294,7 @@ main {
 }
 
 .company-details-container p {
-    font-size: 16px;
+    font-size: 18px;
     color: #333;
 }
 
@@ -324,4 +324,71 @@ main {
 
 #companyDetailsTable tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+/* CSS Spinner */
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #8368E8;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin: 0 auto;
+}
+
+/* Keyframes for the spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#kopchinja {
+    margin: 60px auto;
+    text-align: center;
+}
+
+#kopchinja h3 {
+    color: #8368E8;
+    margin-bottom: 20px;
+}
+
+/* Flex container for buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 100px; /* Space between buttons */
+}
+
+/* Button styles */
+#kopchinja button {
+    display: inline-block;
+    width: 200px; /* Fixed width for equal-sized buttons */
+    padding: 10px 0; /* Adjust padding for better height */
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #8368E8;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #bdbcbc;
+    white-space: normal; /* Allow text to wrap to multiple lines */
+    word-wrap: break-word; /* Break long words if needed */
+    margin: 20px 0px;
+}
+
+#kopchinja button:hover {
+    background-color: #725AC9;
+}
+
+#kopchinja button:active {
+    background-color: #8368E8;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#damjan p strong, #stefan p strong, #matej p strong {
+    color: #8368E8;
 }

@@ -87,7 +87,7 @@ def predict_stock_prices(company_code):
         plt.figure(figsize=(12, 6))
 
         # Plot actual prices for the last 30 days
-        plt.plot(actual_dates_last_30, y_test_last_30, label='Вистинска цена (Последни 30 денови)', color='green')
+        plt.plot(actual_dates_last_30, y_test_last_30, label='Вистинска цена (Последни 30 денови)', color='#8368E8')
 
         # Add the last actual date and value to the predicted data
         next_dates_with_connection = [actual_dates_last_30[-1]] + list(next_7_days_df['date'])  # Add last actual date
@@ -95,15 +95,18 @@ def predict_stock_prices(company_code):
             next_7_days_df['average_price'])  # Add last actual price
 
         # Plot the predicted prices for the next 7 days
-        plt.plot(next_dates_with_connection, next_7_days_predictions_with_connection, label="Предвидени цени (Наредни 7 денови)", color='green', linestyle='--')
+        plt.plot(next_dates_with_connection, next_7_days_predictions_with_connection, label="Предвидени цени (Наредни 7 денови)", color='#8368E8', linestyle='--')
 
         # Add plot labels and title
-        plt.xlabel('Датум')
-        plt.ylabel('Цена на акција')
+        plt.xlabel('Датум', labelpad=20)
+        plt.ylabel('Цена на акција (денари)', labelpad=20)
         plt.title(f'Недоволно/Невалидни податоци за тренирање на LSTM модел за компанијата {company_code}', color='red')
         plt.legend()
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=0)
         plt.tight_layout()
+
+        # Set the background color of the entire figure (outside the plot area)
+        plt.gcf().set_facecolor('#f9f9f9')  # Color outside the plot area (the canvas)
 
         # Save the plot to BytesIO and encode it for use in the web page
         buf = io.BytesIO()
@@ -282,7 +285,7 @@ def predict_stock_prices(company_code):
     plt.figure(figsize=(12, 6))
 
     # Plot actual prices for the last 30 days
-    plt.plot(actual_dates_last_30, y_test_last_30, label='Вистинска цена (Последни 30 денови)', color='green')
+    plt.plot(actual_dates_last_30, y_test_last_30, label='Вистинска цена (Последни 30 денови)', color='#8368E8')
 
     # Add the last actual date and value to the predicted data
     next_dates_with_connection = [actual_dates_last_30[-1]] + list(next_dates)  # Add last actual date
@@ -291,21 +294,25 @@ def predict_stock_prices(company_code):
 
     # Plot the predicted prices for the next 7 days
     plt.plot(next_dates_with_connection, next_7_days_predictions_with_connection,
-             label="Предвидени цени (Наредни 7 денови)", color='green', linestyle='--')
+             label="Предвидени цени (Наредни 7 денови)", color='#8368E8', linestyle='--')
 
     # Add labels and title
     plt.xlabel('Датум')
-    plt.ylabel('Цена на акција')
-    plt.title(f'LSTM Предвидување на цена на акциите: Последни 30 и наредни 7 денови за {company_code}')
+    plt.ylabel('Цена на акција (денари)')
+    plt.title(f'LSTM Предвидување на цена на акциите за {company_code}')
+
+    # Set the background color of the entire figure (outside the plot area)
+    plt.gcf().set_facecolor('#f9f9f9')  # Color outside the plot area (the canvas)
 
     # Rotate x-axis labels for better readability
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=0)
 
     # Add the legend
     plt.legend()
 
     # Tight layout to prevent clipping
     plt.tight_layout()
+
 
     # Show the plot
     #plt.show()

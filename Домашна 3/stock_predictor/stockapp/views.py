@@ -116,10 +116,19 @@ def company_details(request, company_code):
             'company_name': company_name,
             'records': records,
             'company_found': True,
-            'prediction_image': prediction_image,
+            'prediction_image': prediction_image
         }
     )
 
+# Technical analysis view
+def technical_analysis(request, company_code):
+    # Placeholder logic for technical analysis
+    return HttpResponse(f"Technical Analysis for {company_code}")
+
+# Fundamental analysis view
+def fundamental_analysis(request, company_code):
+    # Placeholder logic for fundamental analysis
+    return HttpResponse(f"Fundamental Analysis for {company_code}")
 
 # About us
 def about(request):
