@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Companies{% endblock %}
+
+{% block content %}
+    <div class="list_companies">
+            <p>Вкупен број на компании:</p>
+            <strong>{{ companies|length }}</strong>
+            <p>Последно ажурирање на податоци:</p>
+            <p id="date_modified">{{ last_modified_date }}</p>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit">
+                    Обнови податоци
+                </button>
+            </form>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Пребарувај компании...">
+            <i class="fas fa-search"></i> <!-- Font Awesome Search Icon -->
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>КОД</th>
+                        <th>ИМЕ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for company in companies %}
+                        <tr>
+                            <td>{{ company.Company_ID }}</td>
+                             <td>
+                                <a href="{% url 'company_detail' company.Company_Code %}">
+                                    {{ company.Company_Code }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'company_detail' company.Company_Code %}">
+                                    {{ company.Company_Name }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3">No company data available</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".list_companies table");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}

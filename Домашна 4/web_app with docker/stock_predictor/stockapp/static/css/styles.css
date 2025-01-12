@@ -1,0 +1,394 @@
+@import url('https://fonts.cdnfonts.com/css/tt-travels-trl?styles=151872');
+/* General Styling */
+body {
+    font-family: 'TT Travels Trl', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #4A4A4A;
+    font-size: 18px;
+}
+
+/* Navigation Bar */
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    background-color: #f8f8f8;
+    padding: 10px 0;
+    margin: 0;
+}
+
+header nav ul li {
+    margin: 0 25px;
+    font-size: 35px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+header nav ul li.selected a {
+    font-weight: bold;
+    color: #6c63ff; /* Highlighted color */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 7px;
+    background-color: #f8f8f8;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    color: #8368E8;
+}
+
+/* Page-Specific Styling */
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+/* Home page */
+.home {
+    margin: 20px auto;
+    font-size: 25px;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.home div {
+    margin-bottom: 35px;
+}
+
+.home strong, button{
+    color: #8368E8;
+}
+
+.home button {
+  margin-top: 15px;
+  display: inline-block;
+  padding: 15px 35px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #8368E8;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #bdbcbc;
+}
+
+.home button:hover {
+    background-color: #725AC9
+}
+
+.home button:active {
+  background-color: #8368E8;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+/* About Us page*/
+.about_us {
+    margin: 20px auto;
+    font-size: 25px;
+    width: 1400px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.team {
+    flex: 1;
+}
+.team div {
+    margin-bottom: 20px;
+}
+.team span {
+    font-size: 27px;
+    font-weight: bold;
+    color: #8368E8;
+}
+.team small {
+    font-size: 20px;
+    color: #8368E8;
+}
+.team a {
+    text-decoration: none;
+    color: dimgrey;
+}
+.team a:hover {
+    text-decoration: underline;
+    color: black;
+}
+.description {
+    flex: 2;
+    margin-left: 30px;
+}
+.description .subject {
+    color: #8368E8;
+    font-weight: bold;
+}
+
+/* List Companies */
+/* Centering the whole content vertically and horizontally */
+.list_companies_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Centers horizontally */
+    justify-content: center;  /* Centers vertically */
+    height: 100vh;  /* Ensures it takes up the full height of the viewport */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Styling for the companies list section */
+.list_companies {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 700px;  /* Optional: Set a maximum width for the content */
+}
+
+/* Strong text styling (titles) */
+.list_companies strong {
+    color: #8368E8;
+    font-weight: bold;
+    font-size: 45px;
+    margin: 1px;
+}
+
+#date_modified {
+    color: #8368E8;
+    margin-top: 0;
+}
+
+/* Table container with scroll */
+.list_companies .table-container {
+    width: 100%;  /* Full width of the container */
+    max-width: 700px; /* Optional: sets a max width */
+    overflow-x: auto; /* Adds horizontal scrolling */
+    max-height: 400px; /* Optional: limits the height of the table */
+    margin: 20px auto; /* Adds some spacing around the table */
+    border: 1px solid #ddd; /* Optional: adds border to the container */
+}
+
+/* Button styles */
+.list_companies button {
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #8368E8;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #bdbcbc;
+}
+
+.list_companies button:hover {
+    background-color: #725AC9;
+}
+
+.list_companies button:active {
+    background-color: #8368E8;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+/* Table styles */
+.list_companies table {
+    border-collapse: collapse; /* Ensures that borders between cells collapse */
+    width: 100%; /* Full width of the table */
+}
+
+.list_companies th, td {
+    border-bottom: 1px solid #ddd; /* Horizontal line between rows */
+    padding: 8px; /* Optional, for spacing inside cells */
+    text-align: left; /* Align text to the left */
+}
+
+.list_companies th {
+    background-color: #f2f2f2; /* Adds a background color for headers */
+}
+
+/* Add a horizontal line after the table headers */
+.list_companies thead tr {
+    border-bottom: 2px solid #ddd; /* Adds a thicker line after the header */
+}
+
+.list_companies tr:last-child td {
+    border-bottom: none; /* Removes the bottom border from the last row */
+}
+
+/* Search bar container */
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Adjust the width of the search bar */
+    margin-bottom: 20px;  /* Adds space below the search bar */
+    margin-top: 50px;
+}
+
+/* Style the input field */
+#searchInput {
+    width: 100%;
+    padding: 8px 30px 8px 35px; /* Add padding on the left to make room for the icon */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensure padding does not affect the input width */
+}
+
+/* Style for the search icon */
+.search-container i, .search-container svg {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%); /* Centers the icon vertically */
+    color: #888;
+    font-size: 16px; /* Adjust the icon size */
+}
+
+/* Optionally, for Font Awesome, use this */
+.search-container i {
+    font-size: 18px; /* Adjust size if using Font Awesome */
+}
+
+/* Optional: Focus styling for the search input */
+#searchInput:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #8368E8; /* Change the border color when focused */
+}
+
+.list_companies a {
+    text-decoration: none;
+    color: dimgrey;
+}
+.list_companies a:hover {
+    text-decoration: underline;
+    color: #725AC9;
+}
+
+/* Specific styles for the Company Details page */
+.company-details-container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.company-header {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #725AC9;
+}
+
+.company-details-container p {
+    font-size: 18px;
+    color: #333;
+}
+
+.company-details-container .table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+#companyDetailsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    display: table;
+}
+
+#companyDetailsTable th, #companyDetailsTable td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#companyDetailsTable thead th {
+    color: #333 !important; /* Force darker color */
+    background-color: #f4f4f4 !important; /* Ensure visible background */
+    font-weight: bold; /* Make text stand out */
+}
+
+#companyDetailsTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+/* CSS Spinner */
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #8368E8;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin: 0 auto;
+}
+
+/* Keyframes for the spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#kopchinja {
+    margin: 60px auto;
+    text-align: center;
+}
+
+#kopchinja h3 {
+    color: #8368E8;
+    margin-bottom: 20px;
+}
+
+/* Flex container for buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 100px; /* Space between buttons */
+}
+
+/* Button styles */
+#kopchinja button {
+    display: inline-block;
+    width: 200px; /* Fixed width for equal-sized buttons */
+    padding: 10px 0; /* Adjust padding for better height */
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #8368E8;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #bdbcbc;
+    white-space: normal; /* Allow text to wrap to multiple lines */
+    word-wrap: break-word; /* Break long words if needed */
+    margin: 20px 0px;
+}
+
+#kopchinja button:hover {
+    background-color: #725AC9;
+}
+
+#kopchinja button:active {
+    background-color: #8368E8;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#damjan p strong, #stefan p strong, #matej p strong {
+    color: #8368E8;
+}

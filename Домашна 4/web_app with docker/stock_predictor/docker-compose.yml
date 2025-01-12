@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  # MySQL database service
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword   # MySQL root password
+      MYSQL_DATABASE: mydb                # Database name
+      MYSQL_USER: user                    # Database user
+      MYSQL_PASSWORD: password            # Database password
+    volumes:
+      - mysql_data:/var/lib/mysql         # Persistent storage for MySQL
+
+  # Django web application service
+  web:
+    build: .
+    command: /bin/bash /app/start.sh      # Custom start script to run both Django and Streamlit
+    volumes:
+      - .:/app                            # Mounts the entire project into the container
+    ports:
+      - "8000:8000"                       # Exposes port 8000 for Django
+      - "8501:8501"                       # Exposes port 8501 for Streamlit
+    depends_on:
+      - db                                # Ensures the db service starts before web
+
+# Volumes to persist MySQL data
+volumes:
+  mysql_data:

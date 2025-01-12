@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Application{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <!-- Search icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- Company Details -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables CSS <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="{% if request.resolver_match.url_name == 'home' %}selected{% endif %}">
+                    <a href="{% url 'home' %}">Почетна</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'companies' %}selected{% endif %}">
+                    <a href="{% url 'companies' %}">Компании</a>
+                </li>
+                <li class="{% if request.resolver_match.url_name == 'about' %}selected{% endif %}">
+                    <a href="{% url 'about' %}">За нас</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>2024 &copy; Апликација за предвидување вредност на акции на Македонска берза</p>
+    </footer>
+
+    <!--For javaScript -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
