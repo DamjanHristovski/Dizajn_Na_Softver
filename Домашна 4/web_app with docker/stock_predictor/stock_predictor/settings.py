@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rxy8#@lm=+=80ztfl6o(-71+&_s5g$nntv-=^tw3o9z*)wn_4_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -75,14 +75,14 @@ WSGI_APPLICATION = 'stock_predictor.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
-        'NAME': 'berza_data',                        # The name of your database
-        'USER': 'localhost',                        # The MySQL user
-        'PASSWORD': '#Sedi_Madro_Da_Ne$BudeModro69',                # The password for the MySQL user
-        'HOST': 'localhost',                          # The name of the MySQL service in docker-compose
-        'PORT': '3306',                        # Default MySQL port
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
+    #     'NAME': 'berza_data',                        # The name of your database
+    #     'USER': 'localhost',                        # The MySQL user
+    #     'PASSWORD': '#Sedi_Madro_Da_Ne$BudeModro69',                # The password for the MySQL user
+    #     'HOST': 'localhost',                          # The name of the MySQL service in docker-compose
+    #     'PORT': '3306',                        # Default MySQL port
+    # }
 }
 
 # Password validation

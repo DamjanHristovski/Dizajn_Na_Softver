@@ -1,15 +1,15 @@
 version: '3'
 
 services:
-  db:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: '#Sedi_Madro_Da_Ne$BudeModro69'
-      MYSQL_DATABASE: 'berza_data'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: '#Sedi_Madro_Da_Ne$BudeModro69'
-    volumes:
-      - mysql_data:/var/lib/mysql
+#  db:
+#    image: mysql:latest
+#    environment:
+#      MYSQL_ROOT_PASSWORD: '#Sedi_Madro_Da_Ne$BudeModro69'
+#      MYSQL_DATABASE: 'berza_data'
+#      MYSQL_USER: 'root'
+#      MYSQL_PASSWORD: '#Sedi_Madro_Da_Ne$BudeModro69'
+#    volumes:
+#      - mysql_data:/var/lib/mysql
 
   web:
     build: .
@@ -19,8 +19,8 @@ services:
     ports:
       - "8000:8000" # Django
       - "8501:8501" # Streamlit
-    depends_on:
-      - db
+#    depends_on:
+##      - db
 
 volumes:
   mysql_data:

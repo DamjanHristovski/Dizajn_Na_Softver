@@ -8,6 +8,9 @@ import plotly.graph_objects as go
 import numpy as np
 import subprocess
 
+import os
+from django.conf import settings
+
 #Make the data into a dataframe for each company_id / code
 #db_engine = create_engine('mysql+pymysql://root:#Sedi_Madro_Da_Ne$BudeModro69@localhost/berza_data')
 
@@ -47,7 +50,9 @@ else:
 
 #daily_data_path = os.path.join(settings.BASE_DIR, 'stockapp', 'data', 'testing_table.csv')
 # = pd.read_csv(daily_data_path)
-daily_data = pd.read_csv(r"C:\Users\matej\Desktop\dias_project\stock_predictor\stockapp\data\testing_table.csv")
+#daily_data = pd.read_csv(r"C:\Users\matej\Desktop\dias_project\stock_predictor\stockapp\data\testing_table.csv")\
+    daily_data_path = os.path.join(settings.BASE_DIR, 'stockapp', 'data', 'testing_table.csv')
+    daily_data = pd.read_csv(daily_data_path)
 daily_data = daily_data[daily_data['name'] == code]
 daily_data.last_transaction = daily_data.last_transaction.fillna(daily_data.last_transaction.median())
 daily_data.max_price = daily_data.max_price.fillna(daily_data.max_price.median())
