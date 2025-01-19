@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'stock_predictor.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
-        'NAME': 'mydb',                        # The name of your database
-        'USER': 'user',                        # The MySQL user
-        'PASSWORD': 'password',                # The password for the MySQL user
-        'HOST': 'db',                          # The name of the MySQL service in docker-compose
+        'NAME': 'berza_data',                        # The name of your database
+        'USER': 'localhost',                        # The MySQL user
+        'PASSWORD': '#Sedi_Madro_Da_Ne$BudeModro69',                # The password for the MySQL user
+        'HOST': 'localhost',                          # The name of the MySQL service in docker-compose
         'PORT': '3306',                        # Default MySQL port
     }
 }
